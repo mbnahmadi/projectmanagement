@@ -30,7 +30,7 @@ def feedback_ISO_file_path(instance, filename):
 def location_file_path(instance, filename):
     today = datetime.now()
     company_name = slugify(instance.company_name)
-    location_name = slugify(instance.location)
+    location_name = slugify(instance.location_name)
     # مسیر مثلا: profile_images/2025/08/10/user_23/filename.jpg
     return os.path.join(
         "projects_attachment/",
