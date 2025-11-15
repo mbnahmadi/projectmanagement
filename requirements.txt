@@ -24,27 +24,16 @@ django_celery_results==2.6.0
 djangorestframework==3.16.1
 djangorestframework-gis==1.2.0
 et_xmlfile==2.0.0
-<<<<<<< HEAD
 flower==2.0.1
 humanize==4.14.0
-=======
-gunicorn==23.0.0
-iniconfig==2.1.0
->>>>>>> bdcf4f26851fef611618ece0b6d027d59ebaea34
 invoke==2.2.0
 kombu==5.5.4
 openpyxl==3.1.5
 packaging==25.0
 paramiko==4.0.0
-<<<<<<< HEAD
 prometheus_client==0.23.1
 prompt_toolkit==3.0.51
 psycopg==3.2.9
-=======
-pluggy==1.6.0
-prompt_toolkit==3.0.51
-psycopg2-binary==2.9.10
->>>>>>> bdcf4f26851fef611618ece0b6d027d59ebaea34
 pycparser==2.22
 Pygments==2.19.2
 PyNaCl==1.5.0
