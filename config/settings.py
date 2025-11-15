@@ -135,6 +135,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # ------------------------- logger --------------------------
+LOG_DIR = BASE_DIR / "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+
 LOGGING = {
     'version': 1, 
     'disable_existing_loggers': False,
