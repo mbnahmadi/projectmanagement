@@ -65,8 +65,9 @@ REST_FRAMEWORK = {
     'DATE_INPUT_FORMATS': ['%Y-%m-%d', '%d-%m-%Y'],
 }
 
-# ------------ celery ---------------------------------
+BASE_ADDRESS_OF_PDFS_ON_SERVER = config('BASE_ADDRESS_OF_PDFS_ON_SERVER')
 
+# ------------ celery ---------------------------------
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_ACCEPT_CONTENT = ['json']
@@ -133,16 +134,61 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# ------------------------- logger --------------------------
+LOGGING = {
+    'version': 1, 
+    'disable_existing_loggers': False,
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+    'handlers': {
+        'console': {
+            # هندلر برای نمایش لاگ‌ها در ترمینال
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file_celery': {
+            # هندلر اصلی برای ذخیره لاگ‌های Celery در فایل
+            'level': 'INFO', # فقط پیام‌های INFO و بالاتر را ذخیره کن
+            'class': 'logging.handlers.RotatingFileHandler',
+            # مسیر و نام فایل لاگ (در کنار BASE_DIR)
+            'filename': str(BASE_DIR / 'logs' / 'celery_tasks.log'),
+            'maxBytes': 1024 * 1024 * 5,  # حداکثر حجم فایل 5 مگابایت
+            'backupCount': 5, # 5 فایل لاگ پشتیبان نگه دار
+            'formatter': 'verbose',
+        },
+    },
+
+    'loggers': {
+        'django': {
+            # لاگر پیش‌فرض جنگو (برای خطاهای سرور و ...)
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'projectapp.tasks': {
+            # لاگر مخصوص تسک‌های Celery شما
+            'handlers': ['console', 'file_celery'], # هم در کنسول نمایش داده شود و هم در فایل ذخیره گردد
+            'level': 'INFO',
+            'propagate': False, # از ارسال لاگ‌ها به لاگرهای والد جلوگیری می‌کند
+        },
+        # '': { 
+        #     'handlers': ['console', 'file_celery'],
+        #     'level': 'INFO',
+        #     'propagate': True,
+        # }
+    },
+}
+# -----------------------------------------------------------------
 
 DATABASES = {
     'default': {

@@ -8,9 +8,10 @@ from django.core.exceptions import ValidationError
 from django.core.cache import cache
 from core.files_path import location_file_path
 from django.db.models import Q, F
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-BASE_SERVER_ADDRESS = config('BASE_SERVER_ADDRESS')
+BASE_ADDRESS_OF_PDFS_ON_SERVER = settings.BASE_ADDRESS_OF_PDFS_ON_SERVER
 
 
 # ================== Reference Models ========================
@@ -143,25 +144,25 @@ class ProjectModel(models.Model):
             return None
 
         company, location = self.project_address.split('/', 1)
-        base_path = os.path.join(BASE_SERVER_ADDRESS, company)  
-
-        if not os.path.exists(base_path):
-            return None
+        base_path = os.path.join(BASE_ADDRESS_OF_PDFS_ON_SERVER, company)  
 
         cache_key = f'latest_gfs_{company}'
-        latest_gfs = cache.get(cache_key)
+        latest_gfs = cache.get(cache_key) 
+        
         if not latest_gfs:
+            if not os.path.exists(base_path):
+                return None
             gfs_folders = [f for f in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, f))]
             if not gfs_folders:
                 return None
             latest_gfs = max(gfs_folders, key=lambda x: datetime.datetime.strptime(x[4:], '%Y%m%d%H') if x.startswith('gfs.') else datetime.min)
-            cache.set(cache_key, latest_gfs, 60 * 60 * 12)  # 5 hour 
 
         gfs_path = os.path.join(base_path, latest_gfs)
-        pdf_files = glob.glob(os.path.join(gfs_path, f"{location}_*.pdf"))[0]
+        
+        pdf_files = glob.glob(os.path.join(gfs_path, f"{location}_*.pdf"))
         if not pdf_files:
             return None
-        return pdf_files
+        return pdf_files[0] 
     
     # ----------------------- Validations -----------------------------
     def clean(self):

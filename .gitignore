@@ -2,6 +2,11 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,virtualenv,venv
 
 ### Django ###
+.pytest_cache/
+.vscode/
+backups/
+tests/
+
 *.log
 *.pot
 *.pyc

@@ -4,7 +4,7 @@ from django.contrib.gis.geos import Point, LineString
 from django.core.exceptions import ValidationError
 from django.contrib.gis.geos import Point, LineString
 from .models import LocationModel, ProjectModel
-from core.latest_pdf import generate_latest_pdf_address
+# from core.latest_pdf import generate_latest_pdf_address
 
 
 class GeometryTextArea(forms.Textarea):
@@ -106,23 +106,23 @@ class LocationAdminForm(forms.ModelForm):
         return instance
 
 
-class ProjectAdminForm(forms.ModelForm):
-    project_address = forms.CharField(
-        required=False, 
-        help_text='please insert name of company and location in server. e.g-> AkamIndustry10Days_V01/SPD6',
-        label = 'project address in server'
-        )
+# class ProjectAdminForm(forms.ModelForm):
+#     project_address = forms.CharField(
+#         required=False, 
+#         help_text='please insert name of company and location in server. e.g-> AkamIndustry10Days_V01/SPD6',
+#         label = 'project address in server'
+#         )
 
-    class Meta:
-        model = ProjectModel
-        fields = "__all__"
+#     class Meta:
+#         model = ProjectModel
+#         fields = "__all__"
 
-    def save(self, commit=True):
-        instance = super().save(commit=commit) # first save project_address 
-        if instance.project_address: # then 
-            pdf_path= instance.generate_latest_pdf_address()
-            if pdf_path:
-                instance.latest_pdf_path = pdf_path
-                instance.save(update_fields=['latest_pdf_path'])
-        return instance
+#     def save(self, commit=True):
+#         instance = super().save(commit=commit) # first save project_address 
+#         if instance.project_address: # then 
+#             pdf_path= instance.generate_latest_pdf_address()
+#             if pdf_path:
+#                 instance.latest_pdf_path = pdf_path
+#                 instance.save(update_fields=['latest_pdf_path'])
+#         return instance
 
