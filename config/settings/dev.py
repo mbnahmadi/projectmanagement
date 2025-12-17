@@ -1,6 +1,6 @@
 import os
 from .base import *
-from decouple import config
+from decouple import config, Csv
 
 DEBUG = True
 
@@ -9,7 +9,7 @@ DEBUG = True
 SECRET_KEY = config('SECRET_KEY')
 
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost'] 
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv()) 
 
 # BASE_ADDRESS_OF_PDFS_ON_SERVER = config('BASE_ADDRESS_OF_PDFS_ON_SERVER')
 BASE_ADDRESS_OF_PDFS_ON_SERVER = config('BASE_ADDRESS_OF_PDFS_ON_SERVER')
