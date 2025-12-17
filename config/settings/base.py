@@ -10,27 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import os
-from django.conf.global_settings import AUTH_USER_MODEL
+from pathlib import Path
 from import_export.formats.base_formats import XLSX
-from decouple import config, Csv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = config('DEBUG', default=False, cast=bool)
-# ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
@@ -65,43 +56,19 @@ REST_FRAMEWORK = {
     'DATE_INPUT_FORMATS': ['%Y-%m-%d', '%d-%m-%Y'],
 }
 
-BASE_ADDRESS_OF_PDFS_ON_SERVER = config('BASE_ADDRESS_OF_PDFS_ON_SERVER')
-
-# ------------ celery ---------------------------------
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Tehran'
-CELERY_ENABLE_UTC = False
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-CELERY_IMPORTS = (
-    'projectapp.tasks',
-)
-# -------------------------------------------------------
-
 EXPORT_FORMATS = [XLSX]
 AUTH_USER_MODEL = 'usersapp.CustomUserModel'
 AUTHENTICATION_BACKENDS = ["usersapp.backends.UsernameBackend"]
 # ---------------------------------------------------------
 LOGIN_URL = '/users/login/'
-# LOGIN_REDIRECT_URL
+LOGIN_REDIRECT_URL = '/home/'
 
 # -----------------------------------------------------------
 
 # SESSION_COOKIE_AGE = 0   # یعنی سشن فقط تا وقتی مرورگر بازه معتبره
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # ------------------------------------------------------------
-# --------------------- cache --------------------------------
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-    }
-}
 
-# ----------------------------- LOGGING ---------------------------
 
 # -----------------------------------------------------------------
 MIDDLEWARE = [
@@ -193,17 +160,6 @@ LOGGING = {
 }
 # -----------------------------------------------------------------
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT')
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -240,10 +196,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-# STATIC_ROOT = BASE_DIR / 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
 
 
 MEIDA_URL = '/media/'

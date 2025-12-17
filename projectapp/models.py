@@ -1,7 +1,6 @@
 import os
 import glob
 import datetime
-from decouple import config
 from django.db import models
 from django.contrib.gis.db import models as gis_models
 from django.core.exceptions import ValidationError
@@ -142,20 +141,17 @@ class ProjectModel(models.Model):
     def generate_latest_pdf_address(self) -> str | None:
         if not self.project_address:
             return None
-
+            
         company, location = self.project_address.split('/', 1)
         base_path = os.path.join(BASE_ADDRESS_OF_PDFS_ON_SERVER, company)  
-
-        cache_key = f'latest_gfs_{company}'
-        latest_gfs = cache.get(cache_key) 
         
-        if not latest_gfs:
-            if not os.path.exists(base_path):
-                return None
-            gfs_folders = [f for f in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, f))]
-            if not gfs_folders:
-                return None
-            latest_gfs = max(gfs_folders, key=lambda x: datetime.datetime.strptime(x[4:], '%Y%m%d%H') if x.startswith('gfs.') else datetime.min)
+        if not os.path.exists(base_path):
+            return None
+        gfs_folders = [f for f in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, f))]
+        if not gfs_folders:
+            return None
+        latest_gfs = max(gfs_folders, key=lambda x: os.path.getmtime(os.path.join(base_path, x)))
+        # latest_gfs = max(gfs_folders, key=lambda x: datetime.datetime.strptime(x[4:], '%Y%m%d%H') if x.startswith('gfs.') else datetime.min)
 
         gfs_path = os.path.join(base_path, latest_gfs)
         
