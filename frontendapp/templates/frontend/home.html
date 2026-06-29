@@ -1,159 +1,195 @@
-{% load static %}
-{% load rest_framework %}
-<!DOCTYPE html>
+{% load static %} {% load rest_framework %}
+<!doctype html>
 <html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/tablecss.css' %}">
-    <link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
-    <link rel="stylesheet"href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/tablecss.css' %}" />
+    <link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="{% static 'js/tailwind.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/MarkerCluster.css' %}" />
+
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" /> -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"
+    /> -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"
+    /> -->
+    <link
+      rel="stylesheet"
+      href="{% static 'css/MarkerCluster.Default.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/leaflet.draw.css' %}" />
     <title>OR Management System</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-
-
-          <!-- Quick Access -->
-          <div class="section" onclick="toggleSection(this)">
-            <span>Quick Access</span>
-            <span class="arrow">&#9654;</span> <!-- right arrow -->
-          </div>
-          <div class="content">
-            <button id="all-locations-btn">all locations</button>
-            <button id="active-locations-btn">active locations / routes</button>
-            <button id="all-routes-btn">all routes</button>
-            <button id="has-feedback-locations-btn">feedback</button>
-          </div>
-
-
-          <!-- Companies Activity -->
-          <div class="section" onclick="toggleSection(this)">
-            <span>Companies Activity</span>
-            <span class="arrow">&#9654;</span> 
-          </div>
-          <div class="content">
-            <form id="filter-form">
-              <label for="company">Company name:</label>
-              <input type="text" id="company" name="company_name">
-    
-              <label for="location">Location:</label>
-              <input type="text" id="location" name="location">
-    
-              <label for="start-date">Start date:</label>
-              <input type="date" id="start-date" name="start_date">
-    
-              <label for="end-date">End date:</label>
-              <input type="date" id="end-date" name="end_date">
-    
-              <div class="btn">
-                <button id="submit" type="submit">Submit</button>
-                <button id="report" type="button">Report</button>
-              </div>
-            </form>
-          </div>
-          <!-- displaying the distance here  -->
-          <span id="length"></span>
-    
-
-          <!-- Companies FeedBack Filter -->
-          <div class="section" onclick="toggleSection(this)">
-            <span>Companies FeedBack</span>
-            <span class="arrow">&#9654;</span>
-          </div>
-          <div class="content">
-            <form id="filter-form-fb">
-              <label for="company-fb">Company name:</label>  
-              <input type="text" id="company-fb" name="company_name"> 
-          
-              <label for="location-fb">Location:</label>
-              <input type="text" id="location-fb" name="location">
-          
-              <label for="start-date-fb">Start date:</label>
-              <input type="date" id="start-date-fb" name="start_date">
-          
-              <label for="end-date-fb">End date:</label>
-              <input type="date" id="end-date-fb" name="end_date">
-          
-              <div class="btn">
-                <button id="submit-fb"type="submit">Submit</button> 
-                <button id="report-fb" type="button">Report</button>  
-              </div>
-            </form>
-          </div>
-          
-            
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Quick Access -->
+        <div class="section" onclick="toggleSection(this)">
+          <span>Quick Access</span>
+          <span class="arrow">&#9654;</span>
+          <!-- right arrow -->
+        </div>
+        <div class="content">
+          <button id="all-locations-btn">all locations</button>
+          <button id="active-locations-btn">active locations / routes</button>
+          <button id="all-routes-btn">all routes</button>
+          <button id="has-feedback-locations-btn">feedback</button>
         </div>
 
-        <!-- Map -->
-        <div id="map"></div>
-        <div id="last-login" class="last-login-box">
-        last login:
+        <!-- Companies Activity -->
+        <div class="section" onclick="toggleSection(this)">
+          <span>Companies Activity</span>
+          <span class="arrow">&#9654;</span>
         </div>
+        <div class="content">
+          <form id="filter-form">
+            <label for="company">Company name:</label>
+            <input type="text" id="company" name="company_name" />
 
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" />
 
+            <label for="start-date">Start date:</label>
+            <input type="date" id="start-date" name="start_date" />
+
+            <label for="end-date">End date:</label>
+            <input type="date" id="end-date" name="end_date" />
+
+            <div class="btn">
+              <button id="submit" type="submit">Submit</button>
+              <button id="report" type="button">Report</button>
+            </div>
+          </form>
+        </div>
+        <!-- displaying the distance here  -->
+        <span id="length"></span>
+
+        <!-- Companies FeedBack Filter -->
+        <div class="section" onclick="toggleSection(this)">
+          <span>Companies FeedBack</span>
+          <span class="arrow">&#9654;</span>
+        </div>
+        <div class="content">
+          <form id="filter-form-fb">
+            <label for="company-fb">Company name:</label>
+            <input type="text" id="company-fb" name="company_name" />
+
+            <label for="location-fb">Location:</label>
+            <input type="text" id="location-fb" name="location" />
+
+            <label for="start-date-fb">Start date:</label>
+            <input type="date" id="start-date-fb" name="start_date" />
+
+            <label for="end-date-fb">End date:</label>
+            <input type="date" id="end-date-fb" name="end_date" />
+
+            <div class="btn">
+              <button id="submit-fb" type="submit">Submit</button>
+              <button id="report-fb" type="button">Report</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div id="map"></div>
+      <div id="last-login" class="last-login-box">last login:</div>
     </div>
     <!-- pop up Feedback EACH point -->
-    <div id="reporfeedbacktModal" style="z-index:1000;" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+      id="reporfeedbacktModal"
+      style="z-index: 1000"
+      class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
       <div class="bg-white rounded-lg shadow-lg w-1/2">
         <div class="p-4 border-b flex justify-between items-center">
           <h2 class="text-lg font-semibold">Feedback Report</h2>
-          <button id="closeModalfb" class="text-gray-500 hover:text-black text-2xl">&times;</button>
+          <button
+            id="closeModalfb"
+            class="text-gray-500 hover:text-black text-2xl"
+          >
+            &times;
+          </button>
         </div>
         <div class="p-4 overflow-x-auto max-h-[80vh] overflow-y-auto">
-          <div id="reportfeedbackVerticalContainer" class="grid gap-4 grid-cols-1 md:grid-cols-1"></div>
+          <div
+            id="reportfeedbackVerticalContainer"
+            class="grid gap-4 grid-cols-1 md:grid-cols-1"
+          ></div>
         </div>
       </div>
     </div>
 
-
     <!-- pop up Feedback total point -->
-    <div id="totalreporfeedbacktModal" style="z-index:1000;" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+      id="totalreporfeedbacktModal"
+      style="z-index: 1000"
+      class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
       <div class="bg-white rounded-lg shadow-lg w-5/6">
         <div class="p-4 border-b flex justify-between items-center">
           <h2 class="text-lg font-semibold">Total Feedback Report</h2>
-          <button id="closeModaltotalfb" class="text-gray-500 hover:text-black text-2xl">&times;</button>
+          <button
+            id="closeModaltotalfb"
+            class="text-gray-500 hover:text-black text-2xl"
+          >
+            &times;
+          </button>
         </div>
         <div class="p-4 overflow-x-auto max-h-[80vh] overflow-y-auto">
-          <div id="totalreportfeedbackVerticalContainer" class="grid gap-4 grid-cols-1 md:grid-cols-1"></div>
+          <div
+            id="totalreportfeedbackVerticalContainer"
+            class="grid gap-4 grid-cols-1 md:grid-cols-1"
+          ></div>
         </div>
       </div>
     </div>
 
-  <!-- pop up report activity -->
-    <div id="reportModal" style="z-index:1000;" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-lg w-5/6 ">
-          <div class="p-4 border-b flex justify-between items-center">
-            <h2 class="text-lg font-semibold">Report</h2>
-            <button id="closeModal" class="text-gray-500 hover:text-black text-2xl">&times;</button>
-          </div>
-          <div class="p-4 overflow-x-auto max-h-[80vh] overflow-y-auto">
-            <table class="w-full border border-collapse text-sm">
-              <thead>
-                <tr class="bg-gray-200">
-                  <th class="border px-4 py-2">Company</th>
-                  <th class="border px-4 py-2">Location</th>
-                  <th class="border px-4 py-2">Start Date</th>
-                  <th class="border px-4 py-2">End Date</th>
-                  <th class="border px-4 py-2">Format</th>
-                  <th class="border px-4 py-2">Status</th>
-                  <th class="border px-4 py-2">active days</th>
-                  <th class="border px-4 py-2">total days</th>
-                  <th class="border px-4 py-2">total locations</th>
-                </tr>
-              </thead>
-              <tbody id="reportTableBody"></tbody>
-            </table>
-          </div>
+    <!-- pop up report activity -->
+    <div
+      id="reportModal"
+      style="z-index: 1000"
+      class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg shadow-lg w-5/6">
+        <div class="p-4 border-b flex justify-between items-center">
+          <h2 class="text-lg font-semibold">Report</h2>
+          <button
+            id="closeModal"
+            class="text-gray-500 hover:text-black text-2xl"
+          >
+            &times;
+          </button>
         </div>
-    </div> 
-    
+        <div class="p-4 overflow-x-auto max-h-[80vh] overflow-y-auto">
+          <table class="w-full border border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-200">
+                <th class="border px-4 py-2">Company</th>
+                <th class="border px-4 py-2">Location</th>
+                <th class="border px-4 py-2">Start Date</th>
+                <th class="border px-4 py-2">End Date</th>
+                <th class="border px-4 py-2">Format</th>
+                <th class="border px-4 py-2">Status</th>
+                <th class="border px-4 py-2">active days</th>
+                <th class="border px-4 py-2">total days</th>
+                <th class="border px-4 py-2">total locations</th>
+              </tr>
+            </thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <script src="{% static 'leaflet/leaflet.js' %}"></script>
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
@@ -164,7 +200,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{% static 'chart/totaldaysactivity.js' %}"></script>
-
-    
-</body>
+  </body>
 </html>
