@@ -4,11 +4,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="{% static 'js/tailwind.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" href="{% static 'css/tablecss.css' %}" />
     <link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <script src="{% static 'js/tailwind.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/MarkerCluster.css' %}" />
 
     <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" /> -->
@@ -156,8 +156,7 @@
     <!-- pop up report activity -->
     <div
       id="reportModal"
-      style="z-index: 1000"
-      class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]"
     >
       <div class="bg-white rounded-lg shadow-lg w-5/6">
         <div class="p-4 border-b flex justify-between items-center">
