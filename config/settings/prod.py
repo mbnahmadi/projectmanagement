@@ -1,24 +1,33 @@
 from .base import *
 import os
+from decouple import config, Csv
 
 DEBUG = False
 
-ALLOWED_HOSTS = [] 
+#ALLOWED_HOSTS = [
+#    'projectmanagement.pmetocean.ir',
+#    'www.projectmanagement.pmetocean.ir',
+#    'localhost',
+#    '127.0.0.1',
+#    '45.156.186.98',
+#    '.pmetocean.ir' 
+#]
+ALLOWED_HOSTS = ['*']
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
 
-BASE_ADDRESS_OF_PDFS_ON_SERVER = os.getenv('BASE_ADDRESS_OF_PDFS_ON_SERVER')
+BASE_ADDRESS_OF_PDFS_ON_SERVER = config('BASE_ADDRESS_OF_PDFS_ON_SERVER')
 
 # -------------------- DATABASE -----------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT')
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT')
     }
 }
 # -----------------------------------------------------
@@ -47,4 +56,4 @@ CACHES = {
 
 # ----------------------------- LOGGING ---------------------------
 
-STATIC_ROOT = BASE_DIR / 'staticfiles/'
+STATIC_ROOT = str(BASE_DIR / "staticfiles")

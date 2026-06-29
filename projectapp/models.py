@@ -203,6 +203,13 @@ class ProjectModel(models.Model):
             self.total_cycle = delta_days * 2 + end_cycle_num - (start_cycle_num - 1)
         else:
             self.total_cycle = 0
+        found_path = None
+        if self.project_address:
+            found_path = self.generate_latest_pdf_address()
+        if found_path:
+            self.latest_pdf_path = found_path
+        else:
+            self.latest_pdf_path = None 
 
         super().save(*args, **kwargs)
 
