@@ -6,7 +6,23 @@ from .models import ProjectModel
 from django.conf import settings
 from django.core.cache import cache
 
+from django.utils import timezone
+
 BASE_ADDRESS_OF_PDFS_ON_SERVER = settings.BASE_ADDRESS_OF_PDFS_ON_SERVER
+
+
+
+def get_monitor_type():
+
+    now = timezone.localtime()
+
+    if 5 <= now.hour < 6:
+        return "morning"
+
+    elif 17 <= now.hour < 18:
+        return "evening"
+
+    return None
 
 # @shared_task
 # def update_active_projects_pdfs():
@@ -134,5 +150,4 @@ def update_active_projects_pdfs():
         else:
             logger.warning(f"No PDF found for project {proj.company_name.name} / {proj.location_name.name}")
 
-        
         
