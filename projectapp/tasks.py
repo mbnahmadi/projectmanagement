@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.cache import cache
 
 from django.utils import timezone
+from .monitoring import send_push
 
 BASE_ADDRESS_OF_PDFS_ON_SERVER = settings.BASE_ADDRESS_OF_PDFS_ON_SERVER
 
@@ -21,6 +22,20 @@ def get_monitor_type():
 
     elif 17 <= now.hour < 18:
         return "evening"
+
+    return None
+
+
+
+def get_monitor_url():
+
+    monitor_type = get_monitor_type()
+
+    if monitor_type == "morning":
+        return os.getenv("PM_MORNING_PUSH_URL")
+
+    elif monitor_type == "evening":
+        return os.getenv("PM_EVENING_PUSH_URL")
 
     return None
 
@@ -149,5 +164,18 @@ def update_active_projects_pdfs():
             logger.info(f"Generated PDF at {new_path} for project {proj.company_name.name} / {proj.location_name.name}")
         else:
             logger.warning(f"No PDF found for project {proj.company_name.name} / {proj.location_name.name}")
+
+
+    monitor_url = get_monitor_url()
+
+    if monitor_url:
+        try:
+            send_push(
+                monitor_url,
+                "up",
+                "update_active_projects_pdfs completed successfully"
+            )
+        except Exception:
+            logger.exception("Failed to send Uptime Kuma heartbeat")
 
         
