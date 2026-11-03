@@ -1,9 +1,13 @@
 import os
+<<<<<<< HEAD
 import json
+=======
+>>>>>>> c25aabb (staticfiles)
 import logging
 import urllib.request
 import urllib.parse
 
+<<<<<<< HEAD
 from datetime import datetime, timedelta
 import pytz
 
@@ -13,6 +17,11 @@ import pytz
 # Uptime Kuma Push
 # -------------------------
 
+=======
+logger = logging.getLogger(__name__)
+
+
+>>>>>>> c25aabb (staticfiles)
 def send_push(push_url, status, message):
 
     if not push_url:
@@ -59,6 +68,10 @@ def send_push(push_url, status, message):
                 )
             )
 
+<<<<<<< HEAD
+=======
+        import json
+>>>>>>> c25aabb (staticfiles)
         result = json.loads(response_body)
 
         if not result.get("ok"):
@@ -68,4 +81,8 @@ def send_push(push_url, status, message):
                 )
             )
 
+<<<<<<< HEAD
     logging.info("Push sent successfully: %s", status)
+=======
+    logger.info("Uptime Kuma push sent successfully: %s", status)
+>>>>>>> c25aabb (staticfiles)
