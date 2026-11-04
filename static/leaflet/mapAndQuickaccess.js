@@ -6,6 +6,7 @@ L.tileLayer("/static/tiles/{z}/{x}/{y}.png", {
   maxZoom: 9,
   minZoom: 1,
 }).addTo(map);
+
 let markersLayer = L.markerClusterGroup().addTo(map);
 
 let activeIcon = L.icon({
