@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.cache import cache
 
 from django.utils import timezone
-from .monitoring import send_push
+from .monitoring import record_task_success
 
 BASE_ADDRESS_OF_PDFS_ON_SERVER = settings.BASE_ADDRESS_OF_PDFS_ON_SERVER
 
@@ -153,6 +153,7 @@ logger = logging.getLogger(__name__)
 
 @shared_task()
 def update_active_projects_pdfs():
+        monitor_type = get_monitor_type()
     active_company = ProjectModel.active_locations.exclude(
         project_address__isnull=True
         ).select_related('company_name', 'location_name').iterator()
@@ -166,16 +167,12 @@ def update_active_projects_pdfs():
             logger.warning(f"No PDF found for project {proj.company_name.name} / {proj.location_name.name}")
 
 
-    monitor_url = get_monitor_url()
+    monitor_type = get_monitor_type()
 
-    if monitor_url:
-        try:
-            send_push(
-                monitor_url,
-                "up",
-                "update_active_projects_pdfs completed successfully"
-            )
-        except Exception:
-            logger.exception("Failed to send Uptime Kuma heartbeat")
+    if monitor_type:
+        completed_at = timezone.localtime().isoformat()
 
-        
+        record_task_success(
+            monitor_type,
+            completed_at
+        )
