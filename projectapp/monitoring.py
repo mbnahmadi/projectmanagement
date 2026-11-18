@@ -221,7 +221,8 @@ def run_watchdog():
         )
 
         # No status change: no need to send another Push
-        if current_status == last_reported_status:
+        # if current_status == last_reported_status:
+        if current_status == "down" and last_reported_status == "down":
             continue
 
         monitor_url = get_monitor_url(monitor_type)
