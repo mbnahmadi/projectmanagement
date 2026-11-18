@@ -52,7 +52,7 @@ class ProjectFeedBackSerializer(serializers.ModelSerializer):
     days_format = serializers.CharField(source='days_format.format_name')
     project_format = serializers.CharField(source='project_format.name')
     location_name = serializers.CharField(source='location_name.name')
-    geometry = GeometryField(source='location.geometry')
+    geometry = GeometryField(source='location_name.geometry')
     class Meta:
         model = ProjectModel
         geo_field = 'geometry'

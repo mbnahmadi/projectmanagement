@@ -9,8 +9,12 @@ from projectapp.models import ProjectModel
 def get_company_feedback_activity(company_name=None, location_name=None, start_range=None, end_range=None):
     results = []
 
-    qs = ProjectModel.has_feedback.select_related('company_name', 'location', 'project_format', 'days_format')\
-        .prefetch_related('feedbacks__attachments').distinct()
+    qs = (
+        ProjectModel.has_feedback
+        .select_related('company_name', 'location_name', 'project_format', 'days_format')
+        .prefetch_related('feedbacks__attachments', 'feedbacks__responses')
+        .distinct()
+    )
 
     # فیلتر بر اساس شرکت
     if company_name:
@@ -37,7 +41,7 @@ def get_company_feedback_activity(company_name=None, location_name=None, start_r
             }
 
         feedbacks = []
-        for fb in proj.feedbacks.all().distinct():
+        for fb in proj.feedbacks.all():
             # فیلتر feedback بر اساس تاریخ اگر start_range و end_range داده شده
             if start_range and end_range and not (start_range <= fb.date <= end_range):
                 continue
@@ -56,7 +60,7 @@ def get_company_feedback_activity(company_name=None, location_name=None, start_r
                 pass
 
             attachments = []
-            for attach in fb.attachments.all().distinct():
+            for attach in fb.attachments.all():
                 attachments.append({
                     "file": attach.file
                 })
