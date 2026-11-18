@@ -1,5 +1,5 @@
 (function () {
-  const OPTIONS_URL = "/api/filter-options/";
+  const OPTIONS_URL = "/projects/filter-options/";
 
   function fillSelect(select, items, placeholder) {
     select.innerHTML = "";
