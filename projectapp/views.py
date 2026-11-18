@@ -134,3 +134,28 @@ class CompanyLocationRangesView(APIView):
             return Response(data)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+
+
+from collections import defaultdict
+
+class FilterOptionsView(APIView):
+    def get(self, request):
+        if request.query_params.get("has_feedback") in ("1", "true", "True"):
+            qs = ProjectModel.has_feedback.all()
+        else:
+            qs = ProjectModel.objects.all()
+
+        rows = (
+            qs.values_list("company_name__name", "location_name__name")
+            .distinct()
+            .order_by("company_name__name", "location_name__name")
+        )
+
+        grouped = defaultdict(list)
+        for company, location in rows:
+            grouped[company].append(location)
+
+        data = [{"company": c, "locations": locs} for c, locs in grouped.items()]
+        return Response(data)

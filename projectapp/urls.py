@@ -33,4 +33,6 @@ urlpatterns = [
 
     path('download-pdf/<int:project_id>/', views.download_latest_pdf, name='download_pdf'),
 
+    path("filter-options/", views.FilterOptionsView.as_view(), name="filter-options"),
+
 ]

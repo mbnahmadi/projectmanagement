@@ -51,11 +51,20 @@
         </div>
         <div class="content">
           <form id="filter-form">
-            <label for="company">Company name:</label>
+            <!-- <label for="company">Company name:</label>
             <input type="text" id="company" name="company_name" />
 
             <label for="location">Location:</label>
-            <input type="text" id="location" name="location" />
+            <input type="text" id="location" name="location" /> -->
+            <label for="company">Company name:</label>
+            <select id="company" name="company_name">
+              <option value="">All companies</option>
+            </select>
+
+            <label for="location">Location:</label>
+            <select id="location" name="location">
+              <option value="">All locations</option>
+            </select>
 
             <label for="start-date">Start date:</label>
             <input type="date" id="start-date" name="start_date" />
@@ -79,12 +88,20 @@
         </div>
         <div class="content">
           <form id="filter-form-fb">
-            <label for="company-fb">Company name:</label>
+            <!-- <label for="company-fb">Company name:</label>
             <input type="text" id="company-fb" name="company_name" />
 
             <label for="location-fb">Location:</label>
-            <input type="text" id="location-fb" name="location" />
+            <input type="text" id="location-fb" name="location" /> -->
+            <label for="company-fb">Company name:</label>
+            <select id="company-fb" name="company_name">
+              <option value="">All companies</option>
+            </select>
 
+            <label for="location-fb">Location:</label>
+            <select id="location-fb" name="location">
+              <option value="">All locations</option>
+            </select>
             <label for="start-date-fb">Start date:</label>
             <input type="date" id="start-date-fb" name="start_date" />
 
@@ -205,5 +222,7 @@
     <script src="{% static 'js/apexcharts.js' %}"></script>
 
     <script src="{% static 'chart/totaldaysactivity.js' %}"></script>
+
+    <script src="{% static 'leaflet/filterDropdowns.js' %}"></script>
   </body>
 </html>
